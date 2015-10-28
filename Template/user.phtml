@@ -23,6 +23,7 @@
     </tbody>
 </table>
 <?php for($i=0;$i<$this->getPageFile();$i++): ?>
-    <a href="<?php echo Core_App::getBaseUrl()?>user/id/<?php echo $_SESSION['id'] ?>/p/<?php echo $i+1 ?>"><?php echo $i+1 ?></a>
+    <a href="<?php echo Core_App::getBaseUrl()?>user/id/<?php echo Core_App::getParams()['id'] ?>/p/<?php echo $i+1 ?>"><?php echo $i+1 ?></a>
 <?php endfor; ?>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
 </body>

@@ -22,6 +22,7 @@ class Block_Index extends Block_Abstract
     public function getLastFile() {
         $filesModel = new Model_Files();
         $result = $filesModel
+            ->addFieldToFilter('name',array('neq'=>''))
             ->setPageSize(10)
             ->setPage(0)
             ->setOrder('id','DESC')

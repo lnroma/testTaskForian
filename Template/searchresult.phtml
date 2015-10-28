@@ -4,6 +4,11 @@
 </head>
 <body>
 <?php $this->getChunk('chunks/_menu.phtml') ?>
+<form class="search" action="<?php echo Core_App::getBaseUrl() ?>search/" method="get">
+    <input class="search_query" type="text" name="query">
+    <input class="search_submit" type="submit" value="Найти">
+</form>
+<?php if(isset($_GET['query'])): ?>
 <p>Результаты поиска:</p>
 <?php if($this->getCountSearch() != 0): ?>
     <p>Найдено: <?php echo $this->getCountSearch() ?></p>
@@ -26,4 +31,6 @@
 <?php else: ?>
     <p>Извините! По вашему запросу ничего ненайдено...</p>
 <?php endif; ?>
+<?php endif; ?>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
 </body>

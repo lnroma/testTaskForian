@@ -17,5 +17,6 @@
 <hr />
 <a class="button" href="<?php echo trim(Core_App::getBaseUrl(),'/').$file['url']?>">Скачать этот фаил</a>
 <a class="button" href="<?php echo Core_App::getBaseUrl().'coment/fileId/'.$file['id'] ?>"> Коментарии (<?php echo $this->getCountComent() ?>)</a>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
 </body>
 </html>

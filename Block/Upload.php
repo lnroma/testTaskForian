@@ -14,12 +14,22 @@ class Block_Upload extends Block_Abstract
      * call block and render
      */
     public function __construct() {
+
+        if(isset($_SESSION['fileName'])) {
+            if($_FILES['fileUpload']['name'] == $_SESSION['fileName']) {
+                header('Location: '. Core_App::getBaseUrl());
+                die;
+            }
+        }
+
         $prefix = rand(10000,10000000);
         $nameFile = filter_var(isset($_POST['name']) ? $_POST['name'] : '' ,FILTER_SANITIZE_SPECIAL_CHARS);
         $descriptionFile = filter_var(isset($_POST['description']) ? $_POST['description'] : '',FILTER_SANITIZE_SPECIAL_CHARS);
+        $categoryFile = filter_var(isset($_POST['category']) ? $_POST['category'] : 1,FILTER_SANITIZE_SPECIAL_CHARS);
         $uploadFilePath = Core_App::getRootPath().'uploads'.DIRECTORY_SEPARATOR.'disk2'.DIRECTORY_SEPARATOR.$prefix.$_FILES['fileUpload']['name'];
         $mimeType = $_FILES['fileUpload']['type'];
         $url = '/uploads/disk2/'.$prefix.$_FILES['fileUpload']['name'];
+        $_SESSION['fileName'] = $_FILES['fileUpload']['name'];
         $this->_urlFile = trim(Core_App::getBaseUrl(),'/').$url;
         $this->_nameFile = $nameFile;
         if($_FILES['fileUpload']['error'] == 0) {
@@ -38,7 +48,8 @@ class Block_Upload extends Block_Abstract
                         'description' => $descriptionFile,
                         'mimetype' => $mimeType,
                         'url' => $url,
-                        'id_user' => $userId
+                        'id_user' => $userId,
+                        'id_category' => $categoryFile
                     )
                 );
                 $this->setTemplate(Core_App::getRootPath().'Template/result/success.phtml');

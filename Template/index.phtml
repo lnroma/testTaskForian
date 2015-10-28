@@ -20,12 +20,14 @@
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->getLastFile() as $_file): ?>
+    <?php foreach ($this->getLastFile() as $_key => $_file): ?>
         <tr>
-            <td><a href="<?php echo Core_App::getBaseUrl() ?>viewfile/fileId/<?php echo $_file['id']?>"><?php echo $_file['name']?></a></td>
-            <td><?php echo $_file['description']?></td>
+            <td <?php if($_key%2 == 0) echo 'class="nochet"'?>><a href="<?php echo Core_App::getBaseUrl() ?>viewfile/fileId/<?php echo $_file['id']?>"><?php echo $_file['name']?></a></td>
+            <td <?php if($_key%2 == 0) echo 'class="nochet"'?>><?php echo $_file['description']?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
+<script type="text/javascript" src="http://mobtop.ru/c/106579.js"></script><noscript><a href="http://mobtop.ru/in/106579"><img src="http://mobtop.ru/106579.gif" alt="MobTop.Ru - Рейтинг и статистика мобильных сайтов"/></a></noscript>
 </body>

@@ -121,7 +121,9 @@ class Model_Abstract
             }
 
             if($myKey == 'eq') {
-                $this->_whereStatement .= '`'.$field.'` = "'.$val.'" ';
+                $this->_whereStatement .= '`' . $field . '` = "' . $val . '" ';
+            } elseif ($myKey == 'neq') {
+                $this->_whereStatement .= '`' .$field . '` != "' . $val .'"';
             } elseif ($myKey == 'gt') {
                 $this->_whereStatement .= '`'.$field.'` > "'.$val.'" ';
             } elseif ($myKey == 'lt') {
@@ -181,7 +183,7 @@ class Model_Abstract
         if (!is_null($id) && $this->_whereStatement == '') {
             $query .= ' where `' . $this->_idEntity . '` = ' . $id;
         } elseif($this->_whereStatement != '') {
-            $query .= 'where '.$this->_whereStatement;
+            $query .= ' where '.$this->_whereStatement;
         }
 
         if (!is_null($this->_order)) {

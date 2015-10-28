@@ -28,6 +28,11 @@ class Block_Search extends Block_Abstract
 
     public function getCountSearch() {
         $result = reset($this->getSearchResult());
+
+        if(!isset($result['total_found'])) {
+            return 0;
+        }
+        
         return $result['total_found'];
     }
 

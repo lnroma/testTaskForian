@@ -1,0 +1,59 @@
+<?php /** @var Block_Category $this */ ?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<?php // $this->getChunk('forms/_form.phtml') ?>
+<?php if (!is_null($this->getCategoryFile())): ?>
+    <?php $categoryArr = $this->getCategoryFile() ?>
+    <h1><?php echo $categoryArr['category']['title'] ?></h1>
+    <p><?php echo $categoryArr['category']['description'] ?></p>
+    <table class='table'>
+        <thead>
+        <tr>
+            <td>Фаил</td>
+            <td>Описание файла</td>
+        </tr>
+        </thead>
+        <tbody>
+        <?php unset($categoryArr['category']) ?>
+        <?php foreach ($categoryArr as $_file): ?>
+            <tr>
+                <td>
+                    <a href="<?php echo Core_App::getBaseUrl() ?>viewfile/fileId/<?php echo $_file['id'] ?>"><?php echo $_file['name'] ?></a>
+                </td>
+                <td><?php echo $_file['description'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <?php for ($i = 0; $i < $this->getPageFile(); $i++): ?>
+        <a href="<?php echo Core_App::getBaseUrl() ?>category/subcategory/<?php echo Core_App::getParams()['subcategory'] ?>/p/<?php echo $i + 1 ?>"><?php echo $i + 1 ?></a>
+    <?php endfor; ?>
+<?php else: ?>
+<table class="table">
+    <thead>
+    <tr>
+        <td>Категория</td>
+        <td>Описание категории</td>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->getFileCategory() as $_file): ?>
+        <tr>
+            <td><a href="<?php echo Core_App::getBaseUrl() ?>category/subcategory/<?php echo $_file['url_key'] ?>"><?php
+                    if (trim($_file['title']) == '') {
+                        echo "Без имени";
+                    } else {
+                        echo $_file['title'];
+                    }
+                    ?>(<?php echo $this->getCountFiles($_file['id']) ?>)</a></td>
+            <td><?php echo $_file['description'] ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endif; ?>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
+</body>
