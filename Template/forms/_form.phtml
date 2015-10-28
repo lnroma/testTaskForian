@@ -1,0 +1,12 @@
+<?php /** @var Block_Abstract $this */ ?>
+<form class="upload" enctype="multipart/form-data" action="<?php echo Core_App::getBaseUrl() ?>upload/" method="post">
+    <fieldset>
+        <legend>Выберите фаил и нажмите загрузить</legend>
+        <input class="file_upload" type="file" name="fileUpload">
+        Име файла:
+        <input class="text-input" type="text" name="name">
+        Описание файла:
+        <textarea  name="description"></textarea>
+        <input type="submit" value="Загрузить">
+    </fieldset>
+</form>

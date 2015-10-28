@@ -1,0 +1,21 @@
+<html>
+<?php /** @var Block_ViewFile $this */?>
+<?php $this->getChunk('chunks/_head.phtml')?>
+<body>
+<?php $file = reset($this->getFileData())?>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<h1>Вы просматриваете фаил <?php echo $file['name'] ?></h1>
+<p><?php echo $file['description'] ?></p>
+<?php $fileType = explode('/',$file['mimetype']); ?>
+<?php if($fileType[0]=='image'): ?>
+    <img style="width: 100%" src="<?php echo trim(Core_App::getBaseUrl(),'/').$file['url']?>" />
+<?php elseif($fileType[0] == 'text' || $fileType[1] == 'json'): ?>
+    <textarea class="text-input-preview"><?php echo file_get_contents($file['path']) ?></textarea>
+<?php elseif($fileType[0] == 'video'): ?>
+    <video src="<?php echo trim(Core_App::getBaseUrl(),'/').$file['url'] ?>" width="100%"  controls ></video>
+<?php endif; ?>
+<hr />
+<a class="button" href="<?php echo trim(Core_App::getBaseUrl(),'/').$file['url']?>">Скачать этот фаил</a>
+<a class="button" href="<?php echo Core_App::getBaseUrl().'coment/fileId/'.$file['id'] ?>"> Коментарии (<?php echo $this->getCountComent() ?>)</a>
+</body>
+</html>

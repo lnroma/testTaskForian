@@ -1,0 +1,29 @@
+<?php /** @var Block_Search $this */ ?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<p>Результаты поиска:</p>
+<?php if($this->getCountSearch() != 0): ?>
+    <p>Найдено: <?php echo $this->getCountSearch() ?></p>
+<table class="table">
+    <thead>
+    <tr>
+        <td>Имя файла</td>
+        <td>Описание файла</td>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->getFiles() as $_file): ?>
+        <tr>
+            <td><a href="<?php echo Core_App::getBaseUrl() ?>viewfile/fileId/<?php echo $_file['id']?>"><?php echo $_file['name']?></a></td>
+            <td><?php echo $_file['description']?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+<?php else: ?>
+    <p>Извините! По вашему запросу ничего ненайдено...</p>
+<?php endif; ?>
+</body>

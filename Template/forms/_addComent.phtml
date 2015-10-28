@@ -1,0 +1,20 @@
+<?php /** @var Block_Abstract $this */ ?>
+<form class="upload" action="<?php echo Core_App::getBaseUrl() ?>coment/fileId/<?php echo Core_App::getParams()['fileId']?>" method="post">
+    <fieldset>
+        <legend>Оставьте свой коментарий</legend>
+        <input type="hidden" name="id" value="<?php echo Core_App::getParams()['fileId']?>">
+        <input type="hidden" name="action" value="saveComent"/>
+        Представьтесь:
+        <input class="text-input" type="text" name="name" value="<?php
+            if(isset($_SESSION['psevdoname'])) {
+                echo urldecode($_SESSION['psevdoname']);
+            } elseif(isset($_SESSION['name'])) {
+                echo urldecode($_SESSION['name']);
+            } else {
+                echo 'Аноним';
+            } ?>">
+        Ваш коментарий:
+        <textarea  name="coment" placeholder="Ваш коментарий"></textarea>
+        <input type="submit" value="Сохранить">
+    </fieldset>
+</form>

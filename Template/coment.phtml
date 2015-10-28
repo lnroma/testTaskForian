@@ -1,0 +1,38 @@
+<html>
+<?php /** @var Block_Coment $this */ ?>
+<?php $this->getChunk('chunks/_head.phtml') ?>
+<body>
+<?php $file = reset($this->getFileData()) ?>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<div class="yellow">
+    <h1>Коментарии файла <?php echo $file['name'] ?></h1>
+    <hr/>
+    <?php if(!is_null($this->getMessage())): ?>
+        <?php echo $this->getMessage() ?>
+    <?php endif; ?>
+</div>
+<p><?php echo $file['description'] ?></p>
+<?php if ($this->getCountComent() > 0): ?>
+    <p>Всего комментарий:<?php echo $this->getCountComent(); ?></p>
+    <?php foreach ($this->getComent() as $_key => $_coment): ?>
+        <?php if ($_key % 2 !== 0): ?>
+            <div class="coment-grey">
+        <?php else: ?>
+            <div class="coment">
+        <?php endif; ?>
+        <div class="name"><?php echo $_coment['name'] ?></div>
+        <p>
+            <?php echo strip_tags($_coment['text']) ?>
+        </p>
+        <?php if ($_key % 2 !== 0): ?>
+            </div>
+        <?php else: ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php else: ?>
+    <p>Пока нет ниодного коментария к этому файлу</p>
+<?php endif; ?>
+<?php $this->getChunk('forms/_addComent.phtml')?>
+</body>
+</html>

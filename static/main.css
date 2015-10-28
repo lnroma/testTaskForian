@@ -1,0 +1,164 @@
+body {
+    margin:auto;
+    max-width: 600px;
+}
+
+.table {
+    width: 100%;
+}
+
+.table thead tr td{
+    background: #71B3D7;
+    height: 30px;
+}
+
+.search {
+    float:right;
+}
+
+.search_query {
+    width: 70%;
+    height: 30px;
+    float:left;
+    border:1px solid #B16113;
+    z-index: 15;
+}
+
+.search_submit {
+    width: 30%;
+    height: 30px;
+    float:left;
+    background: rgba(255, 108, 22, 1);
+    border: 1px solid #B16113;
+    color: white;
+    border-radius: 5px;
+    margin-left: -15px;
+    z-index: 1;
+
+}
+
+.search_submit:hover {
+    background: rgba(167, 73, 12, 1);
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 16px;
+    color: #747474;
+}
+
+.button {
+    color: #e5e2d2;
+    background: #3f96ec;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 3px;
+}
+
+.button:hover {
+    background: #2ba9ec;
+}
+
+.to_top{
+    position:fixed;
+    /*opacity: 0.75;*/
+    top:0px;
+    width: 100%;
+    max-width: inherit;
+    background: #0573b1 !important;
+    height: 30px;
+}
+
+.head {
+    position: fixed;
+    display: block;
+    /*opacity: 0.75;*/
+    background: #0091B1;
+    top:0px;
+    height: 30px;
+    width: 100%;
+    max-width: inherit;
+}
+
+p {
+    color: #676767;
+}
+
+hr {
+    border: 1px solid gray;
+}
+
+.clear {
+    background: #f3d8bd;
+    display: block;
+    max-width: inherit;
+    margin-bottom: 10px;
+}
+
+.table tbody {
+    background: #f9f9ff;
+}
+
+.upload fieldset textarea {
+    width: 100%;
+}
+
+.text-input {
+    width: 100%;
+}
+.text-input-preview {
+    width: 100%;
+    height: 100%;
+}
+/* Making it beautiful */
+
+.file_upload{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    transition: box-shadow 0.1s linear;
+    width: 100%;
+}
+
+.name {
+    display: block;
+    background: #0091B1;
+    border-radius: 3px;
+    color: white;
+    float: left;
+    width: 20%;
+    padding: 5px;
+}
+
+.yellow {
+    background: #efefef;
+}
+
+.coment-grey {
+    background: #efefef;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray ;
+}
+
+.coment {
+    background: rgba(255, 208, 31, 0.12);
+    border-top: 1px solid gray;
+    border-bottom:1px solid gray;
+}
+
+.button-home {
+    color: #e5e2d2;
+    background: #ff6c16;
+    height: 30px !important;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    padding: 3px;
+}
+
+.button-home:hover {
+    background: rgba(232, 102, 21, 1);
+}

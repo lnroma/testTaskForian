@@ -1,0 +1,31 @@
+<?php /** @var Block_Index $this */ ?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<?php if(!isset($_SESSION['id'])): ?>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+<?php else: ?>
+<p>Привет <a href="<?php echo Core_App::getBaseUrl().'user/id/'.$_SESSION['id'] ?>"><?php echo urldecode($_SESSION['name']) ?></a></p>
+<?php endif; ?>
+<p>Выберите фаил, и загрузите его на сервер</p>
+<?php $this->getChunk('forms/_form.phtml') ?>
+<p>Новые файлы на сервере:</p>
+<table class="table">
+    <thead>
+    <tr>
+        <td>Имя файла</td>
+        <td>Описание файла</td>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->getLastFile() as $_file): ?>
+        <tr>
+            <td><a href="<?php echo Core_App::getBaseUrl() ?>viewfile/fileId/<?php echo $_file['id']?>"><?php echo $_file['name']?></a></td>
+            <td><?php echo $_file['description']?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+</body>
