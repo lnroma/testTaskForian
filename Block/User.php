@@ -39,8 +39,6 @@ class Block_User extends Block_Abstract
             $page = Core_App::getParams()['p'] - 1;
         }
 
-//        var_dump($page);die;
-
         $result = $filesModel
             ->addFieldToFilter('id_user',$_SESSION['id'])
             ->setPageSize(10)

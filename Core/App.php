@@ -57,6 +57,11 @@ class Core_App {
     static public function runApplet() {
         $params = self::getParams();
         $class = 'Block_'.ucfirst($params['controller']);
+        $path = self::getRootPath().'Block'.DIRECTORY_SEPARATOR.ucfirst($params['controller']).'.php';
+
+        if(!file_exists($path)) {
+            throw new Exception_Notfound('Page not found');
+        }
         new $class;
         return true;
     }

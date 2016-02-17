@@ -17,6 +17,10 @@ class Block_Search extends Block_Abstract
         $this->toHtml();
     }
 
+    /**
+     * get files result
+     * @return array
+     */
     public function getFiles() {
         $files = array();
         $fileModel = new Model_Files();
@@ -26,16 +30,29 @@ class Block_Search extends Block_Abstract
         return $files;
     }
 
+    /**
+     * get count search result
+     * @return int
+     */
     public function getCountSearch() {
+
+        if(!$this->getSearchResult()) {
+            return 0;
+        }
+
         $result = reset($this->getSearchResult());
 
         if(!isset($result['total_found'])) {
             return 0;
         }
-        
+
         return $result['total_found'];
     }
 
+    /**
+     * get search result
+     * @return array|bool|null
+     */
     public function getSearchResult()
     {
         if(!is_null($this->_searchResult)) {
