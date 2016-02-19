@@ -1,0 +1,70 @@
+<?php
+/** @var Contact_Block_Create $this */
+$contact = $this->getFieldValue();
+?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<?php if($this->getCountField()->cnt == 0):?>
+    Your not have attribute for create contact you can adding the attribute by this form
+<?php else: ?>
+    <form action="<?php echo Core_App::getBaseUrl()?>contact/save/" method="post" class="create_contact" >
+        <fieldset>
+            <legend>Add you contact</legend>
+        <?php if(isset($contact['id'])): ?>
+            <input type="hidden" name="update" value="1">
+        <input type="hidden" name="id" value="<?php echo $contact['id']?>">
+        <?php endif; ?>
+        Name contact:<br/>
+            <input type="text" <?php if(isset($contact['name'])) echo 'value="'.$contact['name'].'"'?> name="name" placeholder="Contact name" required> * <br/>
+    <?php foreach($this->getFormFields() as $field): ?>
+        <?php if($field['type_input'] != 'textarea'): ?>
+            <?php echo $field['name'] ?>:
+            <input type="<?php echo $field['type_input'] ?>" name="attrib[<?php echo $field['id'] ?>]"
+                <?php if($field['placeholder']) echo 'placeholder = "'. $field['placeholder'] .'"' ?>
+                <?php if(isset($contact[$field['id']])) echo 'value="'.$contact[$field['id']].'"' ?>
+                <?php echo $field['required']?>>
+            <?php if($field['required']) echo '*' ?>
+            <br/>
+        <?php endif; ?>
+
+        <?php if($field['type_input'] == 'textarea'): ?>
+            <?php echo $field['name'] ?>:
+            <textarea name="attrib[<?php echo $field['id']?>]">
+                <?php if(isset($contact[$field['id']])) echo $contact[$field['id']] ?>
+            </textarea>
+            <br/>
+        <?php endif; ?>
+    <?php endforeach;?>
+        <input type="submit" value="Save">
+        </fieldset>
+    </form>
+<?php endif; ?>
+<div style="display:none" id="formAttr">
+    <form action="<?php echo Core_App::getBaseUrl() ?>contact/saveAttrib/" method="post" id="attrib">
+        <fieldset>
+            <legend>Create new attribute</legend>
+            <input  type="hidden" name="url" value="<?php Core_App::getBaseUrl() ?>/contact/create/">
+            Name attribute:<input class="text-input" id="name" type="text" placeholder="name" name="name" required> * <br/>
+            Placeholder:<input class="text-input" id="place" type="text" placeholder="placeholder" name="placeholder"> <br/>
+            <table>
+               <tr>
+                    <td>Required:</td>
+                    <td><input id="requir" class="checkbox" type="checkbox" name="required" value="required"></td>
+                </tr>
+                <tr>
+                    <td>Show in greed:</td>
+                    <td><input id="sing" class="checkbox" type="checkbox" name="show_in_greed" value="1"></td>
+                </tr>
+            </table>
+            <input type="submit" value="Save">
+        </fieldset>
+    </form>
+</div>
+<button class="button" onclick='showFormAttributeCreate()'>Add new attribute</button>
+<button class="button" onclick='ajaxAttrib()'>Save attribute by ajax</button>
+<!--<button class="button" onclick="window.location = 'contact/create'">Add contact</button>-->
+<?php $this->getChunk('chunks/_footer.phtml') ?>
+</body>

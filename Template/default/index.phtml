@@ -1,0 +1,80 @@
+<?php /** @var Index_Block_Index $this */ ?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+<?php if ($this->getCountContacts()->cnt == 0): ?>
+    <p>Your don't have contacts</p>
+<?php else: ?>
+    <p>Your contacts</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <?php
+            // generate greed
+            $idAttrShow = array();
+            ?>
+            <td>id</td>
+            <td>Name</td>
+            <?php foreach ($this->getGreedAttribute() as $_attr): ?>
+                <td><?php
+                    $idAttrShow[] = $_attr['id'];
+                    echo $_attr['name'];
+                    ?></td>
+            <?php endforeach; ?>
+            <td>Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->getAllContacts() as $_key => $_contact): ?>
+            <tr>
+                <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><?php echo $_key ?></td>
+                <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><?php echo $_contact['name'] ?></td>
+                <?php foreach ($idAttrShow as $_id): ?>
+                    <?php if (isset($_contact[$_id])): ?>
+                        <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><?php echo $_contact[$_id] ?></td>
+                    <?php else: ?>
+                        <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>>-</td>
+                    <?php endif;?>
+                <?php endforeach ?>
+                <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>>
+                    <button class="button"
+                            onclick="window.location = '<?php echo Core_App::getBaseUrl()?>/contact/create/id/<?php echo $_key ?>'">
+                        Edit
+                    </button>
+                    <button class="button"
+                        onclick="window.location = '<?php echo Core_App::getBaseUrl()?>/contact/delete/id/<?php echo $_key
+                        ?>'"
+                    >Delete</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+<button class="button" onclick="window.location = '<?php echo Core_App::getBaseUrl() ?>contact/create'">Add contact
+</button>
+<p>Manage contact attributes</p>
+<table class="table">
+    <thead>
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>action</td>
+    </tr>
+    </thead>
+    <?php foreach($this->getAllAttribute() as $_key => $_attr): ?>
+        <tr>
+        <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><?php echo $_attr['id']?></td>
+        <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><?php echo $_attr['name']?></td>
+        <td <?php if ($_key % 2 == 0) echo 'class="nochet"' ?>><button class="button"
+                onclick="window.location = '<?php echo Core_App::getBaseUrl()?>contact/attrDel/id/<?php echo $_attr['id'] ?>'" >
+            Delete
+        </button></td>
+        </tr>
+    <?php endforeach;?>
+</table>
+<button class="button" onclick="window.location = '<?php echo Core_App::getBaseUrl() ?>/contact/addAttribute'">Add new attribute</button>
+<?php $this->getChunk('chunks/_footer.phtml') ?>
+</body>

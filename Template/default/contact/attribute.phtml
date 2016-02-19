@@ -1,0 +1,42 @@
+<?php /** @var Contact_Block_Create $this */ ?>
+<head>
+    <?php $this->getChunk('chunks/_head.phtml') ?>
+</head>
+<body>
+<?php $this->getChunk('chunks/_menu.phtml') ?>
+
+<form action="<?php echo Core_App::getBaseUrl() ?>contact/saveAttrib/" method="post">
+    <fieldset>
+        <legend>Create new attribute</legend>
+        <input type="hidden" name="url" value="<?php Core_App::getBaseUrl() ?>/contact/addAttribute/">
+        Name attribute:<input class="text-input" type="text" placeholder="name" name="name" required> * <br/>
+        Placeholder:<input class="text-input" type="text" placeholder="placeholder" name="placeholder"> <br/>
+        <table>
+            <tr>
+                <td>
+                    Type input:
+                    </td>
+                <td>
+                    <select name="type_input">
+                        <option value="text">text</option>
+                        <option value="email">Email validation as mail</option>
+                        <option value="url">Site url vildation as url</option>
+                        <option value="textarea">textarea</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Required:</td>
+                <td><input class="checkbox" type="checkbox" name="required" value="required"></td>
+            </tr>
+            <tr>
+                <td>Show in greed:</td>
+                <td><input class="checkbox" type="checkbox" name="show_in_greed" value="1"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Save">
+    </fieldset>
+</form>
+
+<?php $this->getChunk('chunks/_footer.phtml') ?>
+</body>

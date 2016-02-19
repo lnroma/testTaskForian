@@ -14,9 +14,9 @@ class Config_Db {
      */
     static function getConf() {
         return array(
-            'db_host' => 'mysql:host=localhost;dbname=host-most',
+            'db_host' => 'mysql:host=localhost;dbname=contacts',
             'user'  => 'root',
-            'pass'  => 'test'
+            'pass'  => '123'
         );
     }
 

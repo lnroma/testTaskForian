@@ -13,7 +13,9 @@ class Core_App {
      */
     static private $_path = null;
     static private $_baseUrl = null;
-
+    static private $_themes = null;
+    static private $_modulConfig = null;
+    static private $_controllObject = null;
     /**
      * set root path
      * @param $basePath
@@ -30,6 +32,24 @@ class Core_App {
      */
     static public function getRootPath() {
         return self::$_path;
+    }
+
+    /**
+     * set themes
+     * @param $themes
+     * @return string
+     */
+    static public function setThemes($themes) {
+        self::$_themes = $themes;
+        return self::$_path;
+    }
+
+    /**
+     * set themes
+     * @return string
+     */
+    static public function getThemes() {
+        return self::$_themes;
     }
 
     /**
@@ -51,21 +71,109 @@ class Core_App {
     }
 
     /**
+     * get modules config
+     * @return Config_Modules
+     */
+    static public function getModulesConfig() {
+        return Config_Modules::getModulesConfig();
+    }
+
+    /**
      * run application
      * @return bool
      */
     static public function runApplet() {
         $params = self::getParams();
-        $class = 'Block_'.ucfirst($params['controller']);
-        $path = self::getRootPath().'Block'.DIRECTORY_SEPARATOR.ucfirst($params['controller']).'.php';
 
-        if(!file_exists($path)) {
-            throw new Exception_Notfound('Page not found');
+        if(!isset(self::getModulesConfig()[$params['controller']])) {
+            throw new Exception_Notfound('Page not found!');
         }
-        new $class;
+
+        $modulesConfig = self::getModulesConfig()[$params['controller']];
+
+        if($modulesConfig['enable'] == false) {
+            throw new Exception_Notfound('Modul not found');
+        }
+
+        $configModul = $modulesConfig['config_class'];
+        $configModul = $configModul::getConfig();
+
+        self::$_modulConfig = $configModul;
+
+        self::$_controllObject = self::_loadController($configModul,$params);
+
         return true;
     }
 
+    /**
+     * get current controller
+     * @return null
+     */
+    static public function getConObj() {
+        return self::$_controllObject;
+    }
+
+    /**
+     * load controller
+     * @param $modulConfig
+     * @param $params
+     * @return mixed
+     * @throws Exception_Notfound
+     */
+    static protected function _loadController($modulConfig,$params) {
+
+        if(!isset($modulConfig['controllers'])) {
+            throw new Exception_Notfound('Page not found');
+        }
+
+        $controllersModul = $modulConfig['controllers'].'_'.ucfirst($params['controller']);
+
+        $object = new $controllersModul;
+
+        $params = Core_App::getParams();
+        $action = $params['action'].'Action';
+
+        call_user_func(array($object,$action));
+
+        return $object;
+    }
+
+    static public function getConfigModul() {
+        return self::$_modulConfig;
+    }
+
+    /**
+     * @param $key
+     * @param bool $filtered
+     * @return mixed|null
+     */
+    static public function getPost($key,$filtered = true) {
+
+        if(!isset($_POST[$key])) {
+            return null;
+        }
+
+        if(is_array($_POST[$key])) {
+
+            $result = array();
+
+            foreach($_POST[$key] as $_key => $_post) {
+                if ($filtered) {
+                    $result[$_key] = filter_var($_post,FILTER_SANITIZE_SPECIAL_CHARS);
+                } else {
+                    $result[$_key] = $_post;
+                }
+            }
+
+            return $result;
+        }
+
+        if($filtered) {
+            return filter_var($_POST[$key],FILTER_SANITIZE_SPECIAL_CHARS);
+        } else {
+            return $_POST[$key];
+        }
+    }
 
     /**
      * get params request
@@ -84,16 +192,25 @@ class Core_App {
 
         $params = explode('/',trim($requestUri,'/'));
 
+        // generate controller
         if(reset($params)=='') {
             $result['controller'] = 'index';
         } else {
             $result['controller'] = $params[0];
         }
 
-        for ( $i=1; $i<count($params); $i++ ) {
+        // generate action
+        if(isset($params[1])) {
+            $result['action'] = $params[1];
+        } else {
+            $result['action'] = 'index';
+        }
+
+        // generate params
+        for ( $i=2; $i<count($params); $i++ ) {
             if( $i%2 != 0 ) {
-                if(isset($params[$i+1])) {
-                    $result[$params[$i]] = $params[$i + 1];
+                if(isset($params[$i-1])) {
+                    $result[$params[$i-1]] = $params[$i];
                 }
             }
         }
@@ -109,5 +226,13 @@ class Core_App {
 function __autoload($className) {
     $classPath = explode('_',$className);
     $classFile = Core_App::getRootPath().trim(implode(DIRECTORY_SEPARATOR,$classPath),DIRECTORY_SEPARATOR).'.php';
-    include_once($classFile);
+    if(!file_exists($classFile)) {
+        include_once(
+            Core_App::getRootPath().
+            'Modules/'
+            .trim(implode(DIRECTORY_SEPARATOR,$classPath),
+                DIRECTORY_SEPARATOR).'.php');
+    } else {
+        include_once($classFile);
+    }
 }

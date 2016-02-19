@@ -1,0 +1,15 @@
+<title>Testing task</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="<?php echo Core_App::getBaseUrl().'static/main.css' ?>" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+<script type="text/javascript" src="<?php echo Core_App::getBaseUrl().'static/function.js' ?>"></script>
+<script>
+    <?php if(isset($_SESSION['message'])): ?>
+        <?php if(!is_null($_SESSION['message'])): ?>
+           window.onload = function() {
+               alert('<?php echo $_SESSION['message']?>');
+           }
+           <?php $_SESSION['message'] = null ?>
+        <?php endif; ?>
+    <?php endif; ?>
+</script>

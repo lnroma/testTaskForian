@@ -1,25 +1,37 @@
-/**
- * Created by roman on 24.10.15.
- */
-$(document).ready(function() {
-var start_pos=$('#stick_menu').offset().top;
- $(window).scroll(function(){
-  if ($(window).scrollTop()>start_pos) {
-      if ($('#stick_menu').hasClass()==false) $('#stick_menu').addClass('to_top');
-  }  else {
-      $('#stick_menu').removeClass('to_top');
-  }
- });
-});
+function showFormAttributeCreate() {
 
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  window.location = encodeURI('/callback/id/'+profile.getId()+'/name/'+profile.getName()+'/email/'+profile.getEmail());
+    var form = document.getElementById('formAttr');
+
+    if (form.style.display == "block") {
+        form.style.display = 'none';
+    } else {
+        form.style.display = 'block';
+    }
 }
 
-function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
-        console.log('User signed out.');
-    });
+var name = document.getElementById('name');
+
+function ajaxAttrib() {
+    var place = document.getElementById('place');
+    var type_input = document.getElementById('type_input');
+    var requir = document.getElementById('requir');
+    var sing = document.getElementById('sing');
+    var req = new XMLHttpRequest();
+    req.addEventListener('load',doneajax);
+    req.open('POST','/contact/saveAttrib/ajax/true',true);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send("name="+name.value
+            +"&place="+place.value
+            +"&type_input=text"
+            +"&required="+requir.value
+            +"&placeholder="+place.value
+            +"&show_in_greed="+sing.value);
+}
+
+function doneajax() {
+    var json = JSON.parse(this.response);
+    var html = name+':<input type="text" name="attrib['+json.id+']>';
+    var form = document.getElementsByClassName('create_contact');
+    form[0].innerHTML = html;
+    //form.innerHTML(html);
 }
