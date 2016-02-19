@@ -133,6 +133,10 @@ class Core_App {
         $params = Core_App::getParams();
         $action = $params['action'].'Action';
 
+        if(!method_exists($object,$action)) {
+            throw new Exception_Notfound('Page not found');
+        }
+
         call_user_func(array($object,$action));
 
         return $object;

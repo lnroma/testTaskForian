@@ -7,9 +7,9 @@
  */
 session_start();
 include 'Core/App.php';
-Core_App::setBaseUrl('http://host-most.local/');
+Core_App::setBaseUrl('http://localhost:8088/');
 // require slash in end
-Core_App::setRootPath('/var/www/host-most/');
+Core_App::setRootPath('/var/www/testTaskForian/');
 Core_App::setThemes('default');
 try {
     Core_App::runApplet();

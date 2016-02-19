@@ -71,6 +71,7 @@ class Contact_Controller_Contact extends Core_Controller_Abstract
         $post['placeholder'] = Core_App::getPost('placeholder')?Core_App::getPost('placeholder'):'';
         $post['show_in_greed'] = Core_App::getPost('show_in_greed')?Core_App::getPost('show_in_greed'):0 ;
 
+
         $modelAttrib = new Contact_Model_Contacts_Attribute();
 
         $id = NULL;
@@ -85,7 +86,16 @@ class Contact_Controller_Contact extends Core_Controller_Abstract
         $_SESSION['message'] = "The attribute is saved!";
 
         if(Core_App::getParams()['ajax']) {
-            echo json_encode(array('done' => true,'id' => $id,'message'=>$_SESSION['message']));
+            echo json_encode(
+                  array(
+                   'done' => true,
+                   'id' => $id,
+                   'name' => $post['name'],
+                   'place' => $post['placeholder'],
+                   'message'=>$_SESSION['message']
+                  )
+            );
+
             $_SESSION['message'] = null;
             die;
         }

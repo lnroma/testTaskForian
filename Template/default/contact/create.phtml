@@ -13,6 +13,7 @@ $contact = $this->getFieldValue();
     <form action="<?php echo Core_App::getBaseUrl()?>contact/save/" method="post" class="create_contact" >
         <fieldset>
             <legend>Add you contact</legend>
+        <div id='js-wrapper'>
         <?php if(isset($contact['id'])): ?>
             <input type="hidden" name="update" value="1">
         <input type="hidden" name="id" value="<?php echo $contact['id']?>">
@@ -38,17 +39,24 @@ $contact = $this->getFieldValue();
             <br/>
         <?php endif; ?>
     <?php endforeach;?>
+	</div>
         <input type="submit" value="Save">
         </fieldset>
     </form>
 <?php endif; ?>
 <div style="display:none" id="formAttr">
-    <form action="<?php echo Core_App::getBaseUrl() ?>contact/saveAttrib/" method="post" id="attrib">
+    <div id="attrib">
         <fieldset>
             <legend>Create new attribute</legend>
             <input  type="hidden" name="url" value="<?php Core_App::getBaseUrl() ?>/contact/create/">
             Name attribute:<input class="text-input" id="name" type="text" placeholder="name" name="name" required> * <br/>
             Placeholder:<input class="text-input" id="place" type="text" placeholder="placeholder" name="placeholder"> <br/>
+            <select id="type_input" name="type_input">
+                <option value="text">text</option>
+                <option value="email">Email validation as mail</option>
+                <option value="url">Site url vildation as url</option>
+                <option value="textarea">textarea</option>
+            </select>
             <table>
                <tr>
                     <td>Required:</td>
@@ -59,12 +67,12 @@ $contact = $this->getFieldValue();
                     <td><input id="sing" class="checkbox" type="checkbox" name="show_in_greed" value="1"></td>
                 </tr>
             </table>
-            <input type="submit" value="Save">
+            <button class="button" onclick='ajaxAttrib()'>Save attribute by ajax</button>
         </fieldset>
-    </form>
+    </div>
 </div>
 <button class="button" onclick='showFormAttributeCreate()'>Add new attribute</button>
-<button class="button" onclick='ajaxAttrib()'>Save attribute by ajax</button>
+
 <!--<button class="button" onclick="window.location = 'contact/create'">Add contact</button>-->
 <?php $this->getChunk('chunks/_footer.phtml') ?>
 </body>

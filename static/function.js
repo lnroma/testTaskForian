@@ -9,29 +9,45 @@ function showFormAttributeCreate() {
     }
 }
 
-var name = document.getElementById('name');
+
 
 function ajaxAttrib() {
+    var name = document.getElementById('name');
     var place = document.getElementById('place');
-    var type_input = document.getElementById('type_input');
-    var requir = document.getElementById('requir');
-    var sing = document.getElementById('sing');
+    var typeInput = _getSelectedType();
+    var requir = document.getElementById('requir').checked ? 1 : 0;
+    var sing = document.getElementById('sing').checked ? 1 : 0;
     var req = new XMLHttpRequest();
     req.addEventListener('load',doneajax);
     req.open('POST','/contact/saveAttrib/ajax/true',true);
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    console.log(sing);
     req.send("name="+name.value
             +"&place="+place.value
-            +"&type_input=text"
-            +"&required="+requir.value
+            +"&type_input="+typeInput
+            +"&required=1"+requir
             +"&placeholder="+place.value
-            +"&show_in_greed="+sing.value);
+            +"&show_in_greed="+sing);
 }
 
+/** wrap ajax to form **/
 function doneajax() {
+    console.log(this.response);
     var json = JSON.parse(this.response);
-    var html = name+':<input type="text" name="attrib['+json.id+']>';
-    var form = document.getElementsByClassName('create_contact');
-    form[0].innerHTML = html;
-    //form.innerHTML(html);
+    var wrapForm = document.getElementById('js-wrapper');
+    var wrapper = document.createElement('input');
+    wrapper.setAttribute('type','text');
+    wrapper.setAttribute('name','attrib['+json.id+']');
+    wrapper.setAttribute('placeholder',json.place);
+    var name = document.createTextNode(json.name+':');
+    wrapForm.appendChild(name);
+    wrapForm.appendChild(wrapper);
+    alert(json.message);
+}
+
+function _getSelectedType() {
+    var type = document.getElementById("type_input");
+    var inputIndex = type.options[type.selectedIndex].value;
+    console.log(inputIndex);
+    return inputIndex;
 }
